@@ -1,0 +1,10 @@
+Condition,Symptom,Severity,Critical Question
+Heart Attack,Chest Pain,Severe,Do you have chest pain?
+Heart Attack,Shortness of Breath,Severe,Are you having trouble breathing?
+Heart Attack,Dizziness,Moderate,Do you feel dizzy?
+Stroke,Slurred Speech,Severe,Are you having trouble speaking?
+Stroke,Numbness in Limbs,Severe,Do you feel numbness in your arm?
+Stroke,Confusion,Moderate,Are you feeling confused?
+Asthma,Wheezing,Severe,Are you wheezing?
+Asthma,Shortness of Breath,Severe,Are you having trouble breathing?
+Asthma,Coughing,Moderate,Do you have a persistent cough?
