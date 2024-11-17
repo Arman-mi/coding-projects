@@ -120,7 +120,7 @@ public class Main {
 
     // this game loop method added a couple of years to me, I am offically 33 after going through this
     private void gameLoop() {
-        int moveCounter = 0;  // starts the damn move counter
+        int moveCounter = 0;  // starts the move counter
         final int MOVE_THRESHOLD = 5;  // enemy movement speeeeeeeed,
 
         while (true) {
@@ -168,7 +168,7 @@ public class Main {
 
             StdDraw.show();
 
-            // Add a short delay to slow down the game loop iii haTEEEE MY LIFE
+            // Add a short delay to slow down the game loop
             try {
                 Thread.sleep(100);  // can I die now please?
             } catch (InterruptedException e) {
@@ -203,8 +203,7 @@ public class Main {
     }
     // new end
 
-// it took me 2 fucking hours to fix this fucking flikering peice of piece of shit bro im not a game dev and I fucking
-    // fail this class cause im 7 labs behind.
+
     private void renderFrameWithHUD(long remainingTime) {
         StdDraw.clear(Color.BLACK);
         ter.renderFrame(currentWorld.getWorld());
@@ -276,7 +275,7 @@ public class Main {
 
 
 
-// thats why hes the goat. the GOAT.
+
 
 
     public static TETile[][] getWorldFromInput(String input) {
@@ -488,9 +487,3 @@ public class Main {
 
 
 
-// if you made it all the way down here I just wanted to say u my dear friend have gained +999999999 aura
-
-// I just have one question,
-
-
-// English or Spanish?
