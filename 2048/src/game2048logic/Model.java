@@ -85,7 +85,13 @@ public class Model {
      *  Empty spaces are stored as null.
      * */
     public boolean emptySpaceExists() {
-        // TODO: Task 1. Fill in this function.
+        for (int x = 0; x < board.size(); x += 1) {
+            for (int y = 0; y < board.size(); y += 1) {
+                if (board.tile(x, y) == null) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -95,7 +101,15 @@ public class Model {
      * given a Tile object t, we get its value with t.value().
      */
     public boolean maxTileExists() {
-        // TODO: Task 2. Fill in this function.
+        for (int x = 0; x < board.size(); x += 1) {
+            for (int y = 0; y < board.size(); y += 1) {
+                if (board.tile(x, y) != null) {
+                    if (board.tile(x, y).value() == MAX_PIECE) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -106,7 +120,34 @@ public class Model {
      * 2. There are two adjacent tiles with the same value.
      */
     public boolean atLeastOneMoveExists() {
-        // TODO: Task 3. Fill in this function.
+        if (emptySpaceExists()) {
+            return true;
+        }
+
+        for (int y = 0; y < board.size(); y += 1) {
+            for (int x = 0; x < board.size(); x += 1) {
+                if (x + 1 < board.size() && y + 1 < board.size()) {
+                    if (board.tile(x, y).value() == board.tile(x + 1, y).value()
+                            || board.tile(x, y).value() == board.tile(x, y + 1).value()) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+
+        for (int y = board.size() - 1; y >= 0; y--) {
+            for (int x = board.size() - 1; x >= 0; x--) {
+
+                if (x - 1 >= 0 && y - 1 >= 0) {
+                    if (board.tile(x, y).value() == board.tile(x - 1, y).value()
+                            || board.tile(x, y).value() == board.tile(x, y - 1).value()) {
+                        return true;
+                    }
+                }
+            }
+        }
+
         return false;
     }
 
@@ -128,8 +169,28 @@ public class Model {
         Tile currTile = board.tile(x, y);
         int myValue = currTile.value();
         int targetY = y;
+        for (int i = y + 1; i <= board.size() - 1; i++) {
+            Tile targetTile = board.tile(x, i);
 
-        // TODO: Tasks 5, 6, and 10. Fill in this function.
+            if (board.tile(x, i) == null) {
+                targetY = i;
+            } else if (targetTile.value() == myValue && !targetTile.wasMerged()
+                    && !currTile.wasMerged()) {
+                targetY = i;
+                this.score = this.score() + currTile.value() * 2;
+                //the use of the break statements were a hint I got from a friend, not my own
+                //idea
+                break;
+            } else {
+                break;
+            }
+        }
+
+        if (targetY != y) {
+            board.move(x, targetY, currTile);
+        }
+
+
     }
 
     /** Handles the movements of the tilt in column x of board B
@@ -138,18 +199,35 @@ public class Model {
      * so we are tilting the tiles in this column up.
      * */
     public void tiltColumn(int x) {
-        // TODO: Task 7. Fill in this function.
+
+
+        for (int i = board.size()   - 1; i >= 0; i--) {
+            Tile currTile = board.tile(x, i);
+            if (currTile != null) {
+
+                moveTileUpAsFarAsPossible(x, i);
+
+            }
+        }
+
     }
 
     public void tilt(Side side) {
-        // TODO: Tasks 8 and 9. Fill in this function.
+        for (int x = 0; x <= board.size() - 1; x++) {
+            tiltColumn(x);
+        }
+
     }
 
     /** Tilts every column of the board toward SIDE.
      */
     public void tiltWrapper(Side side) {
         board.resetMerged();
+        board.setViewingPerspective(side);
         tilt(side);
+        board.setViewingPerspective(Side.NORTH);
+
+
     }
 
 
