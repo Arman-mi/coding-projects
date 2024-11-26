@@ -1,13 +1,15 @@
 from simple_ai import get_legal_moves
-# ai.py
 
+""" in this section of the script we are trying to implement our AI to play against us
+we are giving each piece a certain amount of value points and we want the AI to 
+protect its pieces while at the same time attack the opponents pieces"""
 piece_values = {
     'P': 1, 'N': 3, 'B': 3, 'R': 5, 'Q': 9, 'K': 100,  # White pieces
     'p': -1, 'n': -3, 'b': -3, 'r': -5, 'q': -9, 'k': -100  # Black pieces
 }
-
+#this function runs through the board to see what the current score is. by score i mean points i mentioned earlier
 def evaluate_board(board):
-    """Evaluate the board state and return a score."""
+    
     score = 0
     for row in range(8):
         for col in range(8):
@@ -17,20 +19,22 @@ def evaluate_board(board):
 
                 # Reward center control
                 if (row, col) in [(3, 3), (3, 4), (4, 3), (4, 4)]:
-                    score += 0.5 if piece.isupper() else -0.5  # White gets positive, Black gets negative
+                    score += 0.5 if piece.isupper() else -0.5  
 
-                # Penalize pawns that are blocked
+                
                 if piece.lower() == 'p' and is_pawn_blocked(board, row, col):
                     score += -0.5 if piece.isupper() else 0.5
     return score
 
 def is_pawn_blocked(board, row, col):
     """Check if a pawn is blocked."""
-    direction = -1 if board[row][col].isupper() else 1  # White pawns move up (-1), Black down (+1)
+    direction = -1 if board[row][col].isupper() else 1  
     return board[row + direction][col] != " " if 0 <= row + direction < 8 else True
 
+
+#Find all pieces that can be attacked by the given side. this function helps with aggression
+#so that the AI does not play defensivly
 def find_targets(board, is_white):
-    """Find all pieces that can be attacked by the given side."""
     targets = []
     for row in range(8):
         for col in range(8):
@@ -41,7 +45,7 @@ def find_targets(board, is_white):
 
 
 def choose_best_move(board, depth=2):
-    """Choose the best move for the AI using improved logic."""
+    
     best_move = None
     max_eval = float('-inf')
 
@@ -58,8 +62,9 @@ def choose_best_move(board, depth=2):
         eval = evaluate_board(board)
 
         # Add bonus for attacking high-value targets
+        # Double the value of attacking
         if target_piece != " ":
-            eval += abs(piece_values[target_piece]) * 2  # Double the value of attacking
+            eval += abs(piece_values[target_piece]) * 2  
 
         # Undo the move
         board[start[0]][start[1]] = start_piece

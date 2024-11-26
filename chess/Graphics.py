@@ -1,20 +1,19 @@
-# graphics.py
 
+"""in this section of the code we are using pygame which is a library to help us display the game board and pieces"""
 import pygame
 import os
 import sys
 
-# Constants for display
 WIDTH, HEIGHT = 800, 800
 SQUARE_SIZE = WIDTH // 8
 
-# Define colors for the chessboard
-LIGHT_SQUARE = (245, 222, 179)  # Light beige color
-DARK_SQUARE = (139, 69, 19)     # Dark brown color
+LIGHT_SQUARE = (245, 222, 179)  
+DARK_SQUARE = (139, 69, 19)     
 
-# Dictionary for piece images
+# hashmap for the different piece images
 piece_images = {}
 
+#this helper functions helps us get access to our piece images
 def resource_path(relative_path):
     # Get the absolute path for PyInstaller bundle or development
     try:
@@ -42,7 +41,7 @@ def initialize_screen():
     pygame.display.set_caption("Chess Game")
     return screen
 
-# Draw chessboard
+# this method draws the chessboard
 def draw_board(screen):
     colors = [LIGHT_SQUARE, DARK_SQUARE]
     for row in range(8):
@@ -50,7 +49,7 @@ def draw_board(screen):
             color = colors[(row + col) % 2]
             pygame.draw.rect(screen, color, pygame.Rect(col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
 
-# Draw pieces on the board
+
 def draw_pieces(screen, board):
     for row in range(8):
         for col in range(8):
@@ -58,7 +57,9 @@ def draw_pieces(screen, board):
             if piece != " ":
                 screen.blit(piece_images[piece], (col * SQUARE_SIZE, row * SQUARE_SIZE))
 
-# Convert mouse position to board coordinates
+
+
+#this method gets the postion of our mouse hovering over the screen
 def get_board_position(mouse_pos):
     x, y = mouse_pos
     row = y // SQUARE_SIZE
