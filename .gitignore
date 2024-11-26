@@ -2,4 +2,6 @@ Chess/Build/
 Chess/dist/
 Medical AI/results/
 Medical AI/__pycache__/
+Medical AI/logs/
+Medical AI/fine_tuned_distilbert
 NgramAndWordNet/data/
