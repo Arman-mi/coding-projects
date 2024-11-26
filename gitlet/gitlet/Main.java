@@ -39,12 +39,13 @@ public class Main {
                 }
                 break;
             case "restore":
-                if (args.length == 2 && args[0].equals("--")) {
-                    Repository.restore(args[1]);
-                } else if (args.length == 3 && args[1].equals("--")) {
-                    Repository.restore(args[0], args[2]);
+                if (args.length == 3 && args[1].equals("--")) {
+                    Repository.restore(args[2]);
+                } else if (args.length == 4 && args[2].equals("--")) {
+                    Repository.restore(args[1], args[3]);
                 } else {
                     System.out.println("Invalid arguments for restore command.");
+                    break;
                 }
             case "log":
                 Repository.log();

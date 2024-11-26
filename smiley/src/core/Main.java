@@ -235,18 +235,7 @@ public class Main {
     }
 
 
-
-
 // the name is himothy becaue I am HIM
-
-
-
-
-
-
-
-
-
 
 
     private void loadGame() {
@@ -274,10 +263,6 @@ public class Main {
     //there was waay to many implemntations and none of them were working
 
 
-
-
-
-
     public static TETile[][] getWorldFromInput(String input) {
         input = input.toLowerCase();
         if (input.startsWith("n") && input.endsWith("s")) {
@@ -290,198 +275,7 @@ public class Main {
     }
 
 
-
-
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//        ter = new TERenderer();
-//        ter.initialize(WIDTH, HEIGHT);
-//
-//        while (true) {
-//            drawMainMenu();
-//            char input = getCharInput();
-//
-//            switch (input) {
-//                case 'n':
-//                    startNewGame();
-//                    break;
-//                case 'l':
-//                    loadGame();
-//                    break;
-//                case 'q':
-//                    System.exit(0);
-//                    break;
-//                default:
-//                    System.out.println(
-//                            "Invalid input. Please try again.");
-//            }
-//        }
-//    }
-//
-//    private static void drawMainMenu() {
-//        StdDraw.clear(Color.BLACK);
-//        StdDraw.setPenColor(Color.WHITE);
-//        Font titleFont = new Font("Monaco", Font.BOLD, TITLE_FONT_SIZE);
-//        Font optionFont = new Font("Monaco", Font.PLAIN, OPTION_FONT_SIZE);
-//
-//        StdDraw.setFont(titleFont);
-//        StdDraw.text(WIDTH / 2, HEIGHT * 3 / 4, "CS61B: The Game");
-//
-//        StdDraw.setFont(optionFont);
-//        StdDraw.text(WIDTH / 2, HEIGHT / 2, "New Game (N)");
-//        StdDraw.text(WIDTH / 2, HEIGHT / 2 - 2, "Load Game (L)");
-//        StdDraw.text(WIDTH / 2, HEIGHT / 2 - 4, "Quit (Q)");
-//
-//        StdDraw.show();
-//    }
-//
-//    private static char getCharInput() {
-//        while (true) {
-//            if (StdDraw.hasNextKeyTyped()) {
-//                return Character.toLowerCase(StdDraw.nextKeyTyped());
-//            }
-//        }
-//    }
-//
-//    private static void startNewGame() {
-//        long seed = getSeed();
-//        currentWorld = new World(WIDTH, HEIGHT, seed);
-//        currentWorld.generateWorld();
-//        gameLoop();
-//    }
-//
-//    private static long getSeed() {
-//        StdDraw.clear(Color.BLACK);
-//        StdDraw.setPenColor(Color.WHITE);
-//        StdDraw.text(WIDTH / 2, HEIGHT / 2, "Enter seed (press S when done):");
-//        StdDraw.show();
-//
-//        StringBuilder sb = new StringBuilder();
-//        while (true) {
-//            char c = getCharInput();
-//            if (c == 's') {
-//                break;
-//            }
-//            if (Character.isDigit(c)) {
-//                sb.append(c);
-//                StdDraw.clear(Color.BLACK);
-//                StdDraw.text(WIDTH / 2, HEIGHT / 2, "Seed: " + sb.toString());
-//                StdDraw.show();
-//            }
-//        }
-//        return Long.parseLong(sb.toString());
-//    }
-//
-//    private static void loadGame() {
-//        try {
-//            String savedState = Files.readString(Paths.get("savegame.txt"));
-//            currentWorld = World.loadFromString(savedState);
-//            gameLoop();
-//        } catch (IOException e) {
-//            System.out.println("No saved game found.");
-//        }
-//    }
-//
-//    private static void gameLoop() {
-//        while (true) {
-//            ter.renderFrame(currentWorld.getWorld());
-//            if (StdDraw.hasNextKeyTyped()) {
-//                char input = Character.toLowerCase(StdDraw.nextKeyTyped());
-//                if (input == 'q') {
-//                    saveGame(currentWorld);
-//                    System.exit(0);
-//                }
-//            }
-//        }
-//    }
-//
-//    private static void saveGame(World world) {
-//        try {
-//            Files.writeString(Paths.get("savegame.txt"), world.getWorldState());
-//        } catch (IOException e) {
-//            System.out.println("Failed to save the game.");
-//        }
-//    }
-//
-//    public static TETile[][] getWorldFromInput(String input) {
-//        input = input.toLowerCase();
-//        if (input.startsWith("n") && input.endsWith("s")) {
-//            long seed = Long.parseLong(input.substring(1, input.length() - 1));
-//            World tempWorld = new World(WIDTH, HEIGHT, seed);
-//            tempWorld.generateWorld();
-//            return tempWorld.getWorld();
-//        }
-//        return null;
-//    }
-//}
 
 
 

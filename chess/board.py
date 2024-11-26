@@ -38,7 +38,7 @@ def print_board(board):
     for row in board:
         print(" ".join(piece if piece != " " else "." for piece in row))
     print("\n")
+    
 
-# Initialize and display the chessboard
 board = initialize_board()
 print_board(board)

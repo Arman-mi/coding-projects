@@ -29,18 +29,6 @@ public class Repository {
      */
 
 
-    // attnetion fellow 61bl people, this project was done with the help of uncle GPT,
-    // I initally used it to get an idea of what the hell is going on and bro cooked in debuging to
-    // this project made me almost kill myself ( not really) but there was little time for it
-    // i did not enjoy using uncle and the only reason I did so was to meet the deadline
-    // this is the only class in berkeley that I like and I wanted to figure eveypart of it out myself
-    // but that just was not possible with the given deadline and my skill level at coding.
-    // I will still turn this in late 1 day which will have deductions assuming i get everything
-    //else right. i did not manage to do merge so that is also some points deducted from me
-    // merge was way beyond me and I could not implement it in the given time
-    // yall are pretty cool people tho
-
-    //to make staging related stuff
 
     public static final File CWD = new File(System.getProperty("user.dir"));
     /**
@@ -68,16 +56,7 @@ public class Repository {
             return;
         }
 
-        //        GITLET_DIR.mkdir();
-        //        File commitsDir = Utils.join(GITLET_DIR, "commits");
-        //        commitsDir.mkdir();
-        //        File blobsfolder = Utils.join(GITLET_DIR,"blobs");
-        //        blobsfolder.mkdir();
-        //        Commit firstCommit = new Commit("first commit", null);
-        //        String commitID = Utils.sha1((Object) Utils.serialize(firstCommit));
-        //        File CommitFile = Utils.join(commitsDir, commitID);
-        //        Utils.writeContents(Utils.join(GITLET_DIR,"head"), commitID);
-        //        Utils.writeContents(Utils.join(GITLET_DIR,"master"), commitID);
+
 
         GITLET_DIR.mkdir();
         STAGING_DIR.mkdir();
@@ -157,17 +136,12 @@ public class Repository {
             System.out.println("No changes added to the commit.");
             return;
         }
-        // now I need homelander to get the current commit before mr president looses his shit
 
 
         String headCommitId = getHeadcommitID();
         Commit headCommit = getCommitbyID(headCommitId);
 
-        //        String headCommitId = Utils.readContentsAsString(HEAD_FILE);
-        //        Commit headCommit = Utils.readObject(Utils.join(CommitsFolder, headCommitId), Commit.class);
-        //        Commit newCommit = new Commit(message, headCommitId);
-        //        newCommit.fileSnapshots.putAll(headCommit.fileSnapshots);
-        //        newCommit.fileSnapshots.putAll(stagingArea);
+
 
 
         Commit newCommit = new Commit(message, headCommitId);
@@ -179,7 +153,6 @@ public class Repository {
 
         saveCommit(newCommit);
 
-        //CLEAR THE STAGE TRUMP IS GETTING SHOT, I REPeat WE NEED EXFILL for MR PRESIDNET NOW
 
 
         saveStagingArea(new HashMap<>());
@@ -192,19 +165,7 @@ public class Repository {
 
 
 
-        // Save the new commit
-        //        String newCommitId = Utils.sha1((Object) Utils.serialize(newCommit));
-        //        File commitFile = Utils.join(CommitsFolder, newCommitId);
-        //        Utils.writeObject(commitFile, newCommit);
-        //
-        //        // Update HEAD
-        //        Utils.writeContents(HEAD_FILE, newCommitId);
-        //
-        //        // Clear the staging area
-        //        saveStagingArea(new HashMap<>());
 
-        //        stagingArea.clear();
-        //        Utils.writeObject(Utils.join(StagingDIR, "stagingArea"), stagingArea);
 
 
     }
@@ -217,17 +178,7 @@ public class Repository {
     }
 
 
-//    private static HashMap loadstagingArea() {
-//        if (!STAGING_AREA_FILE.exists()) {
-//            return new HashMap<>();
-//
-//        }
-//        return Utils.readObject(STAGING_AREA_FILE, HashMap.class);
-//    }
-//
-//    private static void saveStagingArea(HashMap<String, String> stagingArea) {
-//        Utils.writeObject(STAGING_AREA_FILE, stagingArea);
-//    }
+
 
 
     public static void rm(String filename) {
@@ -261,143 +212,6 @@ public class Repository {
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // I fucking hate restore I could not figure this shit out for the life of me, I goft fucking lucky
-    // this one was annoying
-
-
-    //    public static void restore(String fileName) {
-    //        restoreHelper(getHeadcommitID(), fileName);
-    //
-    //    }
-    //
-    //    public static void restoreHelper(String commitID, String fileName) {
-    //
-    //        Commit commit = getCommitbyID(commitID);
-    //        if (commit == null) {
-    //            System.out.println(" no fucki wucki commits");
-    //            return;
-    //        }
-    //
-    //        String filesha1 = commit.getFileSha1(fileName);
-    //        if (filesha1 == null) {
-    //            System.out.println("File does not exist in that commit.");
-    //            return;
-    //        }
-    //
-    //        File blobfile = Utils.join(BLOBS_DIR, filesha1);
-    //
-    //        if (!blobfile.exists()) {
-    //            System.out.println("File blob does not exist");
-    //            return;
-    //        }
-    //
-    //        byte[] fileContent = Utils.readContents(blobfile);
-    //
-    //
-    //        File file = Utils.join(CWD, fileName);
-    //        Utils.writeContents(file, fileContent);
-    // }
-
-//    public static void restore(String... args) {
-//        if (args.length == 2 && args[0].equals("--")) {
-//            restore(getHeadcommitID(), args[1]);
-//        } else if (args.length == 3 && args[1].equals("--")) {
-//            restore(args[0], args[2]);
-//        } else {
-//            System.out.println("");
-//        }
-//    }
-
-//    private static void restore(String commitID, String fileName) {
-//        Commit commit = getCommitbyID(commitID);
-//        if (commit == null) {
-//            System.out.println("No commit with that id exists.");
-//            return;
-//        }
-//
-//        String fileSha1 = commit.getFileSha1(fileName);
-//        if (fileSha1 == null) {
-//            System.out.println("File does not exist in that commit.");
-//            return;
-//        }
-//
-//        File blobFile = Utils.join(BLOBS_DIR, fileSha1);
-//        if (!blobFile.exists()) {
-//            System.out.println("File blob does not exist");
-//            return;
-//        }
-//
-//        byte[] fileContent = Utils.readContents(blobFile);
-//        File file = Utils.join(CWD, fileName);
-//        Utils.writeContents(file, (Object) fileContent);
-//        HashMap<String, String> stagingArea = loadstagingArea();
-//        stagingArea.remove(fileName);
-//        saveStagingArea(stagingArea);
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //some additional methods bruh
-
-//    private static String getHeadcommitID() {
-//        return Utils.readContentsAsString(HEAD_FILE);
-//
-//    }
-
-//    private static Commit getCommitbyID(String commitID) {
-//        File commitFile = Utils.join(COMMITS_DIR, commitID);
-//        if (!commitFile.exists()) {
-//            return null;
-//        }
-//        return Utils.readObject(commitFile, Commit.class);
-//
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public static void log() {
 
 
@@ -414,7 +228,7 @@ public class Repository {
         }
     }
     public static void printCommit(Commit commit) {
-        // for debbuging purposes cause of my dum dum bottom :
+        // for debbuging purposes :
 
         //        if (commit.getTimestamp() == null) {
         //            System.out.println("Error: Commit timestamp is null for commit ID " +
@@ -423,7 +237,7 @@ public class Repository {
         //        }
 
 
-        //
+
         System.out.println("===");
         System.out.println("commit " + Utils.sha1((Object) Utils.serialize(commit)));
         if (commit.getSecondParent() != null) {
@@ -781,7 +595,7 @@ public class Repository {
 
         saveStagingArea(new HashMap<>());
 
-        // work you peice of shit I wanna go to bed for fucks sake
+
 
         for (String fileName : targetCommit.fileSnapshots.keySet()) {
             File file = Utils.join(CWD, fileName);
@@ -826,44 +640,7 @@ public class Repository {
 
 
 
-    public static void restore(String... args) {
-        if (args.length == 2 && args[0].equals("--")) {
-            restore(getHeadcommitID(), args[1]);
-        } else if (args.length == 3 && args[1].equals("--")) {
-            restore(args[0], args[2]);
-        } else {
-            System.out.println("Invalid arguments for restore command.");
-        }
-    }
 
-    private static void restore(String commitID, String fileName) {
-        Commit commit = getCommitbyID(commitID);
-        if (commit == null) {
-            System.out.println("No commit with that id exists.");
-            return;
-        }
-
-        String fileSha1 = commit.getFileSha1(fileName);
-        if (fileSha1 == null) {
-            System.out.println("File does not exist in that commit.");
-            return;
-        }
-
-        File blobFile = Utils.join(BLOBS_DIR, fileSha1);
-        if (!blobFile.exists()) {
-            System.out.println("File blob does not exist");
-            return;
-        }
-
-        byte[] fileContent = Utils.readContents(blobFile);
-        File file = Utils.join(CWD, fileName);
-        Utils.writeContents(file, (Object) fileContent);
-
-        // Remove the file from the staging area if it was staged
-        HashMap<String, String> stagingArea = loadstagingArea();
-        stagingArea.remove(fileName);
-        saveStagingArea(stagingArea);
-    }
 
 
 
@@ -889,6 +666,41 @@ public class Repository {
         }
         return Utils.readObject(commitFile, Commit.class);
     }
+    public static void restore(String fileName) {
+        restore(getHeadcommitID(), fileName);
+    }
+
+    public static void restore(String commitID, String fileName) {
+        Commit commit = getCommitbyID(commitID);
+        if (commit == null) {
+            System.out.println("No commit with that id exists.");
+            return;
+        }
+
+        String fileSha1 = commit.getFileSha1(fileName);
+        if (fileSha1 == null) {
+            System.out.println("File does not exist in that commit.");
+            return;
+        }
+
+        File blobFile = Utils.join(BLOBS_DIR, fileSha1);
+        if (!blobFile.exists()) {
+            System.out.println("File blob does not exist");
+            return;
+        }
+
+        byte[] fileContent = Utils.readContents(blobFile);
+        File file = Utils.join(CWD, fileName);
+        Utils.writeContents(file, fileContent);
+
+        // Remove the file from the staging area if it was staged
+        HashMap<String, String> stagingArea = loadstagingArea();
+        stagingArea.remove(fileName);
+        saveStagingArea(stagingArea);
+    }
+
+
+
 }
 
 
