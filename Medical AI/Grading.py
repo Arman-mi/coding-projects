@@ -1,4 +1,9 @@
 from BERT_pipeline import classify_intent
+"""
+this script keeps track of the questions being asked and awards points based 
+and feedback on the questions that are being asked
+
+"""
 class pointCheker:
     def __init__(self, point):
         self.point = point

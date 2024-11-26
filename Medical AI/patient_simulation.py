@@ -1,11 +1,8 @@
 import random
-#from File_reader import symptom_db
-# from BERT_NLP_MODEL import get_nlp_response
 from File_reader import symptom_db
-from Grading import process_question
-# from File_reader import 
-from Grading import user_performance, grading_section
+from Grading import user_performance, grading_section, process_question
 
+#this script brings it all together and runs the patient simulation
 
 def run_patient_simulation():
     
@@ -30,7 +27,7 @@ def run_patient_simulation():
 
     # Display final score
     print("\nAssessment Complete.")
-    print(f"Total Points: {user_performance['points']} / 42")
+    print(f"Total Points: {user_performance['points']} / 12")
 
         
 
@@ -40,7 +37,6 @@ def run_patient_simulation():
 
 
 
-# Run the simulation
 run_patient_simulation()
 
 
