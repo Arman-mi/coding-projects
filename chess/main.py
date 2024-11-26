@@ -6,6 +6,8 @@ from board import initialize_board
 from pieces import move_piece, has_legal_moves, is_in_check
 from Graphics import initialize_screen, load_images, draw_board, draw_pieces, get_board_position
 from simple_ai import choose_random_move
+from softmax_AI import choose_best_move
+last_ai_move = None
 
 def play_game():
     # Initialize the screen and load images
@@ -47,14 +49,20 @@ def play_game():
 
         else:
             # AI's turn (black)
-            ai_move = choose_random_move(board)
+            ai_move = choose_best_move(board, depth = 1 )
             if ai_move:
                 start, end = ai_move
                 print(f"AI is moving from {start} to {end}")
                 move_piece(board, start, end, screen = screen)
+            
+
+
                 pygame.display.flip()
                 pygame.time.delay(1)
-                is_white_turn = True  # Switch back to player's turn
+                is_white_turn = True
+                
+
+                  # Switch back to player's turn
             else:
                 print("No valid moves for AI; exiting.")
                 pygame.quit()

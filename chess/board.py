@@ -1,4 +1,9 @@
-# Define constants for the chess pieces
+"""
+im assigning a string to each variable for better representation on the board. 
+upper case for white pieces and lower case for black pieces, using 2 letter for a representaiton (like bq for black queen)
+should be avoided because it will then mess up the amount of space a peice will take on the board.
+"""
+
 EMPTY = " "
 WHITE_PAWN = "P"
 WHITE_ROOK = "R"
@@ -13,7 +18,7 @@ BLACK_BISHOP = "b"
 BLACK_QUEEN = "q"
 BLACK_KING = "k"
 
-# Initialize an 8x8 chessboard
+# Im using this function to create my 8 by 8 board
 def initialize_board():
     board = [
         [BLACK_ROOK, BLACK_KNIGHT, BLACK_BISHOP, BLACK_QUEEN, BLACK_KING, BLACK_BISHOP, BLACK_KNIGHT, BLACK_ROOK],
@@ -27,16 +32,10 @@ def initialize_board():
     ]
     return board
 
-# Function to print the board in a readable format
-# def print_board(board):
-#     for row in board:
-#         print(" ".join(row))
-#     print("\n")
 
 
 def print_board(board):
     for row in board:
-        # Replace empty spaces with a dot ('.') to make the board clearer
         print(" ".join(piece if piece != " " else "." for piece in row))
     print("\n")
 
