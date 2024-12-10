@@ -15,9 +15,7 @@ piece_images = {}
 
 #this helper functions helps us get access to our piece images
 def resource_path(relative_path):
-    # Get the absolute path for PyInstaller bundle or development
     try:
-        # PyInstaller creates a temporary folder in _MEIPASS
         base_path = sys._MEIPASS
     except AttributeError:
         base_path = os.path.abspath(".")
