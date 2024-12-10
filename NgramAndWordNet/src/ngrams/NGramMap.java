@@ -150,7 +150,7 @@ public class NGramMap {
     }
 
     // I used google and some searching to write this function. not purely my own work but then again
-    // daddy hog said its okay to use online resources and that we will use lots of online resouces for this project.
+    // Josh Hug said its okay to use online resources and that we will use lots of online resouces for this project.
     private void loadcountfiles(String filename) {
         //        String L;
         //        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
