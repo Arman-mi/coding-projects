@@ -51,22 +51,14 @@ public class World implements Serializable {
                 world[x][y] = Tileset.NOTHING;
             }
         }
-// there are bugs here kelly im changing the code so it runs.
 
-        // so the code here you were adding the potions to the world twice, once when
-        // making the world and once when starting the round,
-        //this caused java to shit itself when I tried reloading it because it reloaded with the world
-        // it was saving not the extra ones so when you reloaded you had 5 less potions.
-        // i fixed that here
         List<Room> rooms = generateRooms();
         connectRooms(rooms);
         addWalls();
         placeAvatar(); // this places the avatar in the world
         placeEntities(1);
-        //new start//
        // placeHealthPotions(INITIAL_HEALTH_POTIONS);
         startNewRound();
-        //new end//
     }
 
     //new start//
@@ -153,7 +145,7 @@ public class World implements Serializable {
 
 
 
-    //Arman is adding this method
+    //This method places the avatar in the game
     private void placeAvatar() {
         while (true) {
             int x = RANDOM.nextInt(WIDTH);
@@ -167,7 +159,7 @@ public class World implements Serializable {
         }
     }
 
-    // this is how bro moves in the world, hopefully he does (skeleton emoji)
+    // this is how the Avatar moves in the world, hopefully he does (skeleton emoji)
 
     public void moveAvatar(char direction) {
         int newX = avatarX;
@@ -193,12 +185,12 @@ public class World implements Serializable {
             avatarY = newY;
             world[avatarX][avatarY] = Tileset.AVATAR; // Set the new position to the avatar
         }
-        //new start//
+
         checkForHealthPotion();
-        //new end//
+
     }
 
-    //new start//
+
     private void checkForHealthPotion() {
         Point avatarPos = new Point(avatarX, avatarY);
         if (healthPotions.remove(avatarPos)) {
@@ -206,7 +198,7 @@ public class World implements Serializable {
             System.out.println("Health restored! Current health: " + playerHealth);
         }
     }
-    //new end//
+
 
     private List<Room> generateRooms() {
         List<Room> rooms = new ArrayList<>();
@@ -234,7 +226,7 @@ public class World implements Serializable {
         return rooms;
     }
 
-    //new start//
+
     private void moveAvatarAway(Entity entity) {
         int dx = avatarX - entity.x;
         int dy = avatarY - entity.y;
@@ -247,9 +239,9 @@ public class World implements Serializable {
             world[avatarX][avatarY] = Tileset.AVATAR;
         }
     }
-    //new end//
 
-    //new start//
+
+
     public int getPlayerHealth() {
         return playerHealth;
     }
@@ -270,7 +262,7 @@ public class World implements Serializable {
         entities.remove(entity);
         world[entity.x][entity.y] = Tileset.FLOOR;
     }
-    // new end
+
 
     private boolean overlapsWithExistingRooms(Room newRoom, List<Room> existingRooms) {
         for (Room room : existingRooms) {
@@ -336,7 +328,7 @@ public class World implements Serializable {
         }
     }
 
-// are you a chef? cause you know how to cooooooooooooook!!!
+
 public String getWorldState() {
     StringBuilder sb = new StringBuilder();
     sb.append(WIDTH).append(',').append(HEIGHT).append(',').append(avatarX).append(',').append(avatarY).append(',').append(roundNumber).append('\n');
@@ -413,8 +405,6 @@ public String getWorldState() {
         return loadedWorld;
     }
 
-
-
     public int getRoundNumber() {
         return roundNumber;
     }
@@ -422,10 +412,9 @@ public String getWorldState() {
     public void setRoundNumber(int roundNumber) {
         this.roundNumber = roundNumber;
     }
-// life could be a dream
+    // life could be a dream
     // life could be  dreaaam
-
-    //shoo doo do shabi dada
+    // shoo doo do shabi dada
 
 
 

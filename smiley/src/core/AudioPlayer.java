@@ -2,7 +2,7 @@ package core;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
-// this class was generated with the help of uncle GPT
+// this class was generated with the help of online resources
 public class AudioPlayer {
     private Clip clip;
 
