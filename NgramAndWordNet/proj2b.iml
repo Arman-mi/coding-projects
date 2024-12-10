@@ -9,5 +9,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="library-fa24" level="project" />
+    <orderEntry type="library" name="JavaLibrary" level="project" />
   </component>
 </module>

@@ -67,7 +67,7 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      */
     public TimeSeries plus(TimeSeries ts) {
         TimeSeries newSeries = new TimeSeries();
-        // I looked the putall function up online, handy little bastard.
+        // I looked the putall function up online.
         newSeries.putAll(this);
 
         for (Map.Entry<Integer, Double> data : ts.entrySet()) {
