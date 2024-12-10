@@ -1,7 +1,7 @@
 """hello and welcome to my version of an implemented chess game the code is split into different scirpts for keeping things
 organzied and comments have been provided for each sub section and for some methods to get a more clear 
 understanding of what each section does. please keep in mind that I will use the words method and function 
-interchangebily this is because functions in java are called methods but if I say method Im that specific function
+interchangebily this is because functions in java are called methods but if I say method I mean that specific function
 since we are in python :)
 """
 
