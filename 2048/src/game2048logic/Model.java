@@ -178,8 +178,7 @@ public class Model {
                     && !currTile.wasMerged()) {
                 targetY = i;
                 this.score = this.score() + currTile.value() * 2;
-                //the use of the break statements were a hint I got from a friend, not my own
-                //idea
+
                 break;
             } else {
                 break;
