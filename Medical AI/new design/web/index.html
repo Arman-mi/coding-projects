@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EMT Simulation UI</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header>
+    <h1>🚑 EMT Simulation</h1>
+    <div class="controls">
+      <label for="scenarioSelect">Scenario:</label>
+      <select id="scenarioSelect">
+  <option value="" disabled selected>Loading scenarios…</option>
+</select>
+      <button id="startBtn">Start Run</button>
+      <button id="gradeBtn" disabled>Grade Run</button>
+      <span id="runIdBadge" class="badge"></span>
+    </div>
+  </header>
+
+  <main>
+    <section id="chat">
+      <div id="messages"></div>
+    </section>
+
+    <section id="composer">
+      <input id="userInput" type="text" placeholder="Type a question or command (e.g., 'check vitals', 'give aspirin 324 mg')" />
+      <button id="sendBtn" disabled>Send</button>
+    </section>
+
+    <section id="parsedPanel" class="panel hidden">
+      <h3>Last Parse</h3>
+      <pre id="parsedJson"></pre>
+    </section>
+
+    <section id="gradePanel" class="panel hidden">
+      <h3>Score</h3>
+      <div id="scoreHeader"></div>
+      <table id="gradeTable">
+        <thead><tr><th>Item</th><th>Met</th><th>Awarded</th><th>Weight</th><th>Rationale</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p id="narrative"></p>
+    </section>
+  </main>
+
+  <footer>
+    <small>API base: <code id="apiBase">/</code> • Open <a href="/docs" target="_blank">Swagger Docs</a></small>
+  </footer>
+
+  <script src="./web_app.js"></script>
+</body>
+</html>

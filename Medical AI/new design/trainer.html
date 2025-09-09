@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EMT AI Trainer Console</title>
+  <!-- Minimal styling via Tailwind CDN (optional). Remove if you prefer pure CSS. -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Fallback styles if Tailwind CDN doesn’t load */
+    :root { --bg: #0b1020; --fg: #e9eefb; --muted: #9fb3c8; --card: #121a2f; --accent: #60a5fa; }
+    body { background: var(--bg); color: var(--fg); }
+    .card { background: var(--card); border-radius: 0.75rem; }
+    .btn { background: var(--accent); color: #0b1020; padding: 0.5rem 0.75rem; border-radius: 0.5rem; }
+    .input { background: #0f172a; color: var(--fg); border: 1px solid #1f2a44; border-radius: 0.5rem; padding: 0.5rem; }
+    .kbd { background: #101827; border: 1px solid #1f2a44; padding: 0 0.4rem; border-radius: 0.3rem; font-size: 0.85rem; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  </style>
+</head>
+<body class="min-h-screen">
+  <div class="max-w-6xl mx-auto p-4 space-y-4">
+    <header class="flex items-center justify-between">
+      <h1 class="text-2xl font-semibold">🚑 EMT AI — Trainer Console</h1>
+      <a class="text-sm underline text-blue-300" id="docsLink" href="#" target="_blank">Open /docs</a>
+    </header>
+
+    <!-- Connection / Config -->
+    <section class="card p-4 space-y-3">
+      <div class="flex flex-col md:flex-row gap-3 items-start md:items-end">
+        <label class="w-full">
+          <span class="block text-sm text-slate-300">API Base URL</span>
+          <input id="baseUrl" class="input w-full" value="http://localhost:8000" />
+        </label>
+        <label class="w-full md:w-40">
+          <span class="block text-sm text-slate-300">Case ID</span>
+          <input id="caseId" class="input w-full" placeholder="e.g. 1" />
+        </label>
+        <button id="btnStart" class="btn" title="POST /session">Start Session</button>
+        <button id="btnState" class="btn" title="GET /session/{id}">Refresh State</button>
+        <button id="btnSubmit" class="btn" title="POST /submit">Submit / Grade</button>
+      </div>
+      <div class="text-sm text-slate-300">Session: <span id="sessionId" class="font-semibold">—</span></div>
+      <div class="text-xs text-slate-400">Tip: If CORS blocks requests, enable FastAPI CORS middleware for your frontend origin.</div>
+    </section>
+
+    <!-- Interaction -->
+    <section class="grid md:grid-cols-3 gap-4">
+      <!-- Left: Message composer -->
+      <div class="card p-4 space-y-3 md:col-span-1">
+        <h2 class="font-semibold">Ask / Do</h2>
+        <textarea id="userMsg" class="input w-full h-40 mono" placeholder="e.g. 'Hello, what brings you in today?' or 'I place the patient on O2 via nasal cannula.'"></textarea>
+        <button id="btnSend" class="btn w-full" title="POST /message">Send</button>
+
+        <details class="mt-2">
+          <summary class="cursor-pointer text-slate-300">Advanced</summary>
+          <label class="block mt-2">
+            <span class="block text-sm text-slate-300">Raw body override (optional)</span>
+            <textarea id="rawOverride" class="input w-full h-28 mono" placeholder='{"session_id": 1, "content": "..."}'></textarea>
+            <span class="block text-xs text-slate-400 mt-1">If set, this raw JSON is sent to <span class="mono">POST /message</span> instead of the auto-built payload.</span>
+          </label>
+        </details>
+      </div>
+
+      <!-- Middle: Transcript -->
+      <div class="card p-4 space-y-3 md:col-span-2">
+        <div class="flex items-center justify-between">
+          <h2 class="font-semibold">Transcript</h2>
+          <div class="space-x-2 text-sm">
+            <button id="btnClear" class="btn">Clear</button>
+            <button id="btnCopy" class="btn">Copy</button>
+          </div>
+        </div>
+        <div id="transcript" class="bg-[#0f172a] rounded-lg p-3 h-80 overflow-auto mono text-sm"></div>
+      </div>
+    </section>
+
+    <!-- State panes -->
+    <section class="grid md:grid-cols-3 gap-4">
+      <div class="card p-4 space-y-2">
+        <h3 class="font-semibold">Vitals / State</h3>
+        <pre id="vitals" class="bg-[#0f172a] rounded-lg p-3 h-48 overflow-auto mono text-sm"></pre>
+      </div>
+      <div class="card p-4 space-y-2">
+        <h3 class="font-semibold">Latest Response</h3>
+        <pre id="latest" class="bg-[#0f172a] rounded-lg p-3 h-48 overflow-auto mono text-sm"></pre>
+      </div>
+      <div class="card p-4 space-y-2">
+        <h3 class="font-semibold">Grading</h3>
+        <pre id="grading" class="bg-[#0f172a] rounded-lg p-3 h-48 overflow-auto mono text-sm"></pre>
+      </div>
+    </section>
+
+    <footer class="text-center text-xs text-slate-400 py-6">
+      <span>Built for rapid local testing. Endpoints expected:</span>
+      <code class="mono ml-1">POST /session</code>,
+      <code class="mono">POST /message</code>,
+      <code class="mono">GET /session/{id}</code>,
+      <code class="mono">POST /submit</code>
+    </footer>
+  </div>
+
+  <script>
+    const el = (id) => document.getElementById(id);
+
+    // UI elements
+    const baseUrl = el('baseUrl');
+    const caseId = el('caseId');
+    const btnStart = el('btnStart');
+    const btnState = el('btnState');
+    const btnSubmit = el('btnSubmit');
+    const btnSend = el('btnSend');
+    const btnClear = el('btnClear');
+    const btnCopy = el('btnCopy');
+    const userMsg = el('userMsg');
+    const rawOverride = el('rawOverride');
+    const transcript = el('transcript');
+    const vitals = el('vitals');
+    const latest = el('latest');
+    const grading = el('grading');
+    const sessionIdSpan = el('sessionId');
+    const docsLink = el('docsLink');
+
+    let sessionId = null;
+
+    function setDocsHref() {
+      try {
+        const u = new URL(baseUrl.value);
+        docsLink.href = `${u.origin}/docs`;
+      } catch { docsLink.href = '#'; }
+    }
+    setDocsHref();
+
+    baseUrl.addEventListener('change', setDocsHref);
+
+    function addLog(role, content) {
+      const row = document.createElement('div');
+      row.className = 'mb-3';
+      const name = role === 'user' ? 'You' : role === 'agent' ? 'Patient/Agent' : role;
+      row.innerHTML = `<div class="text-slate-300">${name}:</div>` +
+        `<pre class="bg-[#0b1020] border border-[#1f2a44] rounded p-2 mono text-sm whitespace-pre-wrap">${content}</pre>`;
+      transcript.appendChild(row);
+      transcript.scrollTop = transcript.scrollHeight;
+    }
+
+    function show(obj, target) {
+      target.textContent = obj ? JSON.stringify(obj, null, 2) : '';
+    }
+
+    function setSession(id) {
+      sessionId = id;
+      sessionIdSpan.textContent = id ?? '—';
+    }
+
+    async function api(path, opts = {}) {
+      const url = `${baseUrl.value.replace(/\/$/, '')}${path}`;
+      const headers = Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {});
+      const init = Object.assign({}, opts, { headers });
+      const res = await fetch(url, init);
+      const text = await res.text();
+      let data = null; try { data = text ? JSON.parse(text) : null; } catch { /* keep text */ }
+      if (!res.ok) {
+        const err = new Error(`HTTP ${res.status}`);
+        err.status = res.status; err.data = data || text; throw err;
+      }
+      return data;
+    }
+
+    async function startSession() {
+      const body = { case_id: caseId.value ? Number(caseId.value) : undefined };
+      addLog('system', 'POST /session\n' + JSON.stringify(body, null, 2));
+      try {
+        const data = await api('/session', { method: 'POST', body: JSON.stringify(body) });
+        setSession(data.session_id ?? data.id ?? data.sessionId);
+        addLog('agent', JSON.stringify(data, null, 2));
+        show(data, vitals); // many backends include initial state; adjust as needed
+      } catch (e) {
+        addLog('error', `POST /session failed: ${e.message}\n${JSON.stringify(e.data, null, 2)}`);
+      }
+    }
+
+    async function refreshState() {
+      if (!sessionId) return addLog('warn', 'No session. Start one first.');
+      addLog('system', `GET /session/${sessionId}`);
+      try {
+        const data = await api(`/session/${sessionId}`, { method: 'GET' });
+        show(data, vitals);
+        addLog('agent', JSON.stringify(data, null, 2));
+      } catch (e) {
+        addLog('error', `GET /session/${sessionId} failed: ${e.message}\n${JSON.stringify(e.data, null, 2)}`);
+      }
+    }
+
+    async function sendMessage() {
+      if (!sessionId) return addLog('warn', 'No session. Start one first.');
+      const override = rawOverride.value.trim();
+      const body = override ? JSON.parse(override) : { session_id: sessionId, content: userMsg.value };
+      addLog('user', body.content || override);
+      try {
+        const data = await api('/message', { method: 'POST', body: JSON.stringify(body) });
+        // Expect backend returns something like { reply: "...", state: {...}, turn: {...} }
+        show(data, latest);
+        if (data && (data.state || data.vitals || data.session)) {
+          show(data.state || data.vitals || data.session, vitals);
+        }
+        const replyText = (data && (data.reply || data.text || data.message || data.answer)) || JSON.stringify(data);
+        addLog('agent', replyText);
+      } catch (e) {
+        addLog('error', `POST /message failed: ${e.message}\n${JSON.stringify(e.data, null, 2)}`);
+      }
+    }
+
+    async function submitCase() {
+      if (!sessionId) return addLog('warn', 'No session. Start one first.');
+      const body = { session_id: sessionId };
+      addLog('system', 'POST /submit\n' + JSON.stringify(body, null, 2));
+      try {
+        const data = await api('/submit', { method: 'POST', body: JSON.stringify(body) });
+        show(data, grading);
+        addLog('agent', JSON.stringify(data, null, 2));
+      } catch (e) {
+        addLog('error', `POST /submit failed: ${e.message}\n${JSON.stringify(e.data, null, 2)}`);
+      }
+    }
+
+    btnStart.addEventListener('click', startSession);
+    btnState.addEventListener('click', refreshState);
+    btnSend.addEventListener('click', sendMessage);
+    btnSubmit.addEventListener('click', submitCase);
+    btnClear.addEventListener('click', () => { transcript.innerHTML = ''; latest.textContent = ''; });
+    btnCopy.addEventListener('click', async () => {
+      const text = transcript.innerText; try { await navigator.clipboard.writeText(text); } catch {}
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'enter') {
+        e.preventDefault(); sendMessage();
+      }
+    });
+
+    // Persist baseUrl across reloads
+    (function persistBaseUrl(){
+      const k = 'emt_base_url';
+      baseUrl.value = localStorage.getItem(k) || baseUrl.value;
+      baseUrl.addEventListener('input', () => localStorage.setItem(k, baseUrl.value));
+    })();
+  </script>
+</body>
+</html>
+

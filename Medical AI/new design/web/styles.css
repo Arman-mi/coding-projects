@@ -1,0 +1,72 @@
+/* Minimal, clean UI */
+:root {
+  --bg: #0b1020;
+  --card: #121933;
+  --muted: #aab4d4;
+  --text: #e8ecff;
+  --accent: #6ea8fe;
+  --green: #38c172;
+  --red: #f05252;
+  --yellow: #ffcc66;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background: linear-gradient(180deg, #0b1020 0%, #0b0f1a 100%);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+}
+header {
+  padding: 14px 18px;
+  background: rgba(0,0,0,0.25);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex; justify-content: space-between; align-items: center;
+}
+h1 { margin: 0; font-size: 20px; letter-spacing: 0.3px; }
+.controls { display: flex; gap: 10px; align-items: center; }
+select, input[type="text"], button {
+  background: var(--card); color: var(--text);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+  padding: 10px 12px; font-size: 14px;
+}
+button { cursor: pointer; }
+button:disabled { opacity: 0.6; cursor: not-allowed; }
+.badge {
+  padding: 6px 8px; border-radius: 999px; background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15); font-size: 12px;
+}
+
+main { width: min(980px, 95vw); margin: 18px auto; display: grid; gap: 12px; }
+#chat {
+  background: var(--card); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px;
+  padding: 12px; min-height: 360px; max-height: 60vh; overflow: auto;
+}
+.message { display: grid; gap: 6px; margin: 10px 0; }
+.message .role { font-size: 12px; color: var(--muted); }
+.message .bubble {
+  padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+}
+.message.user .bubble { background: rgba(110,168,254,0.12); border-color: rgba(110,168,254,0.35); }
+.message.patient .bubble { background: rgba(56,193,114,0.12); border-color: rgba(56,193,114,0.35); }
+
+#composer { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
+.panel {
+  background: var(--card); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px;
+  padding: 12px;
+}
+.hidden { display: none; }
+
+#gradeTable {
+  width: 100%; border-collapse: collapse; margin-top: 8px;
+}
+#gradeTable th, #gradeTable td {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 8px; text-align: left; font-size: 13px;
+}
+.met { color: var(--green); font-weight: 600; }
+.miss { color: var(--red); font-weight: 600; }
+#scoreHeader { font-weight: 600; margin-bottom: 6px; }
